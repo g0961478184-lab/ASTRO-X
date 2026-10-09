@@ -1,2 +1,0 @@
-# ASTRO-X
-AI App
