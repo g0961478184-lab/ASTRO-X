@@ -1,3 +1,5 @@
+import base64
+
 import streamlit as st
 
 # ============================================================
@@ -52,6 +54,34 @@ T = {
 L = T[st.session_state.lang]
 
 # ============================================================
+# شعار ASTRO (Base64)
+# ============================================================
+LOGO_SVG = '''<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="r" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#ff69b4"/>
+<stop offset="50%" stop-color="#c026d3"/>
+<stop offset="100%" stop-color="#a855f7"/>
+</linearGradient>
+<radialGradient id="s" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#fffbe6"/>
+<stop offset="30%" stop-color="#ffe680"/>
+<stop offset="60%" stop-color="#ffd966"/>
+<stop offset="100%" stop-color="#b8860b"/>
+</radialGradient>
+</defs>
+<circle cx="100" cy="100" r="78" fill="none" stroke="url(#r)" stroke-width="9"/>
+<circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/>
+<path d="M100,45 Q108,88 155,100 Q108,112 100,155 Q92,112 45,100 Q92,88 100,45 Z" fill="url(#s)" stroke="#d4a017" stroke-width="1.2" stroke-linejoin="round"/>
+<circle cx="100" cy="100" r="4" fill="#ffffff"/>
+<path d="M148,60 Q150,66 156,68 Q150,70 148,76 Q146,70 140,68 Q146,66 148,60 Z" fill="#fffbe6" opacity="0.9"/>
+<path d="M52,132 Q54,138 60,140 Q54,142 52,148 Q50,142 44,140 Q50,138 52,132 Z" fill="#fffbe6" opacity="0.85"/>
+</svg>'''
+
+LOGO_B64 = base64.b64encode(LOGO_SVG.encode("utf-8")).decode("utf-8")
+LOGO_DATA_URI = f"data:image/svg+xml;base64,{LOGO_B64}"
+
+# ============================================================
 # CSS
 # ============================================================
 st.markdown("""
@@ -98,22 +128,23 @@ st.markdown("""
     margin: 0 !important;
 }
 
-/* ===== الشعار - التصحيح هنا ===== */
+/* ===== الشعار ===== */
 .logo-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0 5px 0;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin: 15px auto 5px auto !important;
     position: relative;
     z-index: 2;
+    width: 120px;
+    height: 120px;
 }
-.logo-wrap svg {
-    width: 110px !important;
-    height: 110px !important;
-    max-width: 110px !important;
-    max-height: 110px !important;
+.logo-wrap img {
+    width: 120px !important;
+    height: 120px !important;
+    display: block !important;
     animation: float 3.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7))
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.75))
             drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
 }
 @keyframes float {
@@ -127,7 +158,7 @@ st.markdown("""
     font-size: 2.4rem;
     font-weight: 900;
     letter-spacing: 6px;
-    margin: 0;
+    margin: 5px 0 0 0;
     background: linear-gradient(180deg, #fff4c2 0%, #ffd966 25%, #d4a017 55%, #b8860b 75%, #fff4c2 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -216,7 +247,8 @@ st.markdown("""
 }
 
 @media (max-width: 400px) {
-    .logo-wrap svg { width: 95px !important; height: 95px !important; }
+    .logo-wrap { width: 100px; height: 100px; }
+    .logo-wrap img { width: 100px !important; height: 100px !important; }
     .astro-title { font-size: 2rem; letter-spacing: 4px; }
     .bubbles-grid { gap: 14px; padding: 0 10px; max-width: 340px; }
     .bubble { font-size: 0.75rem; }
@@ -272,58 +304,12 @@ with st.popover("⚙"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شعار ASTRO
+# شعار ASTRO (Base64 Image)
 # ============================================================
-st.markdown("""
-<div class="logo-wrap">
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="110" height="110">
-  <defs>
-    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff69b4"/>
-      <stop offset="50%" stop-color="#c026d3"/>
-      <stop offset="100%" stop-color="#a855f7"/>
-    </linearGradient>
-    <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fffbe6"/>
-      <stop offset="25%" stop-color="#fff4c2"/>
-      <stop offset="55%" stop-color="#ffd966"/>
-      <stop offset="85%" stop-color="#d4a017"/>
-      <stop offset="100%" stop-color="#b8860b"/>
-    </radialGradient>
-  </defs>
-
-  <circle cx="100" cy="100" r="78"
-          fill="none"
-          stroke="url(#ringGrad)"
-          stroke-width="9"
-          opacity="0.95"/>
-
-  <circle cx="100" cy="100" r="78"
-          fill="none"
-          stroke="rgba(255,255,255,0.55)"
-          stroke-width="2.5"
-          opacity="0.7"/>
-
-  <path d="M100,45
-           Q108,88 155,100
-           Q108,112 100,155
-           Q92,112 45,100
-           Q92,88 100,45 Z"
-        fill="url(#starGrad)"
-        stroke="#d4a017"
-        stroke-width="1.2"
-        stroke-linejoin="round"/>
-
-  <circle cx="100" cy="100" r="4" fill="#ffffff" opacity="0.95"/>
-
-  <path d="M148,60 Q150,66 156,68 Q150,70 148,76 Q146,70 140,68 Q146,66 148,60 Z"
-        fill="#fffbe6" opacity="0.9"/>
-
-  <path d="M52,132 Q54,138 60,140 Q54,142 52,148 Q50,142 44,140 Q50,138 52,132 Z"
-        fill="#fffbe6" opacity="0.85"/>
-</svg>
-</div>
-""", unsafe_allow_html=True)
+st.markdown(
+    f'<div class="logo-wrap"><img src="{LOGO_DATA_URI}" alt="ASTRO" /></div>',
+    unsafe_allow_html=True,
+)
 
 # ============================================================
 # العنوان
