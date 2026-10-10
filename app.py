@@ -98,7 +98,7 @@ st.markdown("""
     margin: 0 !important;
 }
 
-/* ===== الشعار ===== */
+/* ===== الشعار - التصحيح هنا ===== */
 .logo-wrap {
     display: flex;
     justify-content: center;
@@ -107,9 +107,11 @@ st.markdown("""
     position: relative;
     z-index: 2;
 }
-.logo-wrap img {
-    width: 110px;
-    height: 110px;
+.logo-wrap svg {
+    width: 110px !important;
+    height: 110px !important;
+    max-width: 110px !important;
+    max-height: 110px !important;
     animation: float 3.5s ease-in-out infinite;
     filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7))
             drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
@@ -214,7 +216,7 @@ st.markdown("""
 }
 
 @media (max-width: 400px) {
-    .logo-wrap img { width: 95px; height: 95px; }
+    .logo-wrap svg { width: 95px !important; height: 95px !important; }
     .astro-title { font-size: 2rem; letter-spacing: 4px; }
     .bubbles-grid { gap: 14px; padding: 0 10px; max-width: 340px; }
     .bubble { font-size: 0.75rem; }
@@ -227,7 +229,7 @@ st.markdown("""
 # ============================================================
 st.markdown("""
 <div class="leaf-bg">
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
   <defs>
     <radialGradient id="g1" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#ff69b4" stop-opacity="1"/>
@@ -270,11 +272,11 @@ with st.popover("⚙"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شعار ASTRO - نسخة مبسطة بدون filters
+# شعار ASTRO
 # ============================================================
 st.markdown("""
 <div class="logo-wrap">
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="110" height="110">
   <defs>
     <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ff69b4"/>
