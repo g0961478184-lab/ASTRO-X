@@ -28,7 +28,6 @@ if "lang" not in st.session_state:
 if "mode" not in st.session_state:
     st.session_state.mode = None
 
-# تهيئة سجل المحادثة لكل وضع
 for m in ["teacher", "doctor", "friend", "general"]:
     if f"chat_{m}" not in st.session_state:
         st.session_state[f"chat_{m}"] = []
@@ -83,7 +82,6 @@ PERSONAS = {
             "icon": "📚",
             "welcome": "Hello! I'm Astro the Teacher 📚\n\nI'm here to help you understand and learn. Ask me about any topic and I'll explain it simply.",
         },
-        "color": "#3b82f6",
         "gradient": "linear-gradient(135deg, #60a5fa, #3b82f6)",
     },
     "doctor": {
@@ -97,7 +95,6 @@ PERSONAS = {
             "icon": "🩺",
             "welcome": "Hello! I'm Astro the Doctor 🩺\n\nI can provide general health information. Remember: I don't replace a real doctor, for emergencies please consult a specialist.",
         },
-        "color": "#14b8a6",
         "gradient": "linear-gradient(135deg, #5eead4, #14b8a6)",
     },
     "friend": {
@@ -111,7 +108,6 @@ PERSONAS = {
             "icon": "💗",
             "welcome": "Hey there, my friend 💗\n\nI'm here to listen and support you. Feel free to share whatever is on your mind.",
         },
-        "color": "#ec4899",
         "gradient": "linear-gradient(135deg, #f9a8d4, #ec4899)",
     },
     "general": {
@@ -125,13 +121,12 @@ PERSONAS = {
             "icon": "✨",
             "welcome": "Hello! I'm Astro ✨\n\nYou can ask me about anything — information, ideas, advice, or just chat.",
         },
-        "color": "#a855f7",
         "gradient": "linear-gradient(135deg, #d8b4fe, #a855f7)",
     },
 }
 
 # ============================================================
-# ردود تجريبية (سنستبدلها بـ Gemini لاحقاً)
+# ردود تجريبية
 # ============================================================
 MOCK_REPLIES = {
     "teacher": {
@@ -143,60 +138,21 @@ MOCK_REPLIES = {
         "en": "Thanks for sharing 🩺\n\nBased on what you said, here are some general tips:\n\n• Drink enough water daily.\n• Get enough rest and sleep.\n• Do light physical activity.\n\n⚠️ **Note**: This is general info and doesn't replace a specialist's advice.",
     },
     "friend": {
-        "ar": "أفهم ما تشعر به 💗\n\nشكراً لثقتك بي ومشاركتي هذا. ما تمر به ليس سهلاً، ومشاعرك مهمة.\n\nتذكر: أنت أقوى مما تظن، ولست وحدك. 🌸\n\nهل تريد أن نتحدث أكثر عن هذا؟",
-        "en": "I understand how you feel 💗\n\nThank you for trusting me with this. What you're going through isn't easy, and your feelings matter.\n\nRemember: You're stronger than you think, and you're not alone. 🌸\n\nWant to talk more about this?",
+        "ar": "أفهم ما تشعر به 💗\n\nشكراً لثقتك بي ومشاركتي هذا. ما تمر به ليس سهلاً، ومشاعرك مهمة.\n\nتذكر: أنت أقوى مما تظن، ولست وحدك. 🌸",
+        "en": "I understand how you feel 💗\n\nThank you for trusting me with this. What you're going through isn't easy, and your feelings matter.\n\nRemember: You're stronger than you think, and you're not alone. 🌸",
     },
     "general": {
-        "ar": "شكراً على سؤالك ✨\n\nإليك ما أفكر به حول هذا الموضوع:\n\nهذا سؤال مثير للاهتمام، وله عدة جوانب. من وجهة نظري، يمكن النظر إليه من زوايا مختلفة...\n\nهل تريد أن نتوسع في نقطة معينة؟",
-        "en": "Thanks for asking ✨\n\nHere's what I think about this topic:\n\nThat's an interesting question with multiple angles. From my perspective, it can be viewed from different sides...\n\nWould you like to explore a specific point?",
+        "ar": "شكراً على سؤالك ✨\n\nهذا سؤال مثير للاهتمام، وله عدة جوانب. من وجهة نظري، يمكن النظر إليه من زوايا مختلفة...\n\nهل تريد أن نتوسع في نقطة معينة؟",
+        "en": "Thanks for asking ✨\n\nThat's an interesting question with multiple angles. From my perspective, it can be viewed from different sides...\n\nWould you like to explore a specific point?",
     },
 }
 
 # ============================================================
-# شعار ASTRO (Base64)
+# الشعار والوردة (Base64)
 # ============================================================
-LOGO_SVG = '''<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="r" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" stop-color="#ff69b4"/>
-<stop offset="50%" stop-color="#c026d3"/>
-<stop offset="100%" stop-color="#a855f7"/>
-</linearGradient>
-<radialGradient id="s" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#fffbe6"/>
-<stop offset="30%" stop-color="#ffe680"/>
-<stop offset="60%" stop-color="#ffd966"/>
-<stop offset="100%" stop-color="#b8860b"/>
-</radialGradient>
-</defs>
-<circle cx="100" cy="100" r="78" fill="none" stroke="url(#r)" stroke-width="9"/>
-<circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/>
-<path d="M100,45 Q108,88 155,100 Q108,112 100,155 Q92,112 45,100 Q92,88 100,45 Z" fill="url(#s)" stroke="#d4a017" stroke-width="1.2" stroke-linejoin="round"/>
-<circle cx="100" cy="100" r="4" fill="#ffffff"/>
-</svg>'''
+LOGO_SVG = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="r" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff69b4"/><stop offset="50%" stop-color="#c026d3"/><stop offset="100%" stop-color="#a855f7"/></linearGradient><radialGradient id="s" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fffbe6"/><stop offset="30%" stop-color="#ffe680"/><stop offset="60%" stop-color="#ffd966"/><stop offset="100%" stop-color="#b8860b"/></radialGradient></defs><circle cx="100" cy="100" r="78" fill="none" stroke="url(#r)" stroke-width="9"/><circle cx="100" cy="100" r="78" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"/><path d="M100,45 Q108,88 155,100 Q108,112 100,155 Q92,112 45,100 Q92,88 100,45 Z" fill="url(#s)" stroke="#d4a017" stroke-width="1.2" stroke-linejoin="round"/><circle cx="100" cy="100" r="4" fill="#ffffff"/></svg>'
 
-ROSE_SVG = '''<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<radialGradient id="rp1" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#ffb6d5"/>
-<stop offset="60%" stop-color="#ff69b4"/>
-<stop offset="100%" stop-color="#c71585"/>
-</radialGradient>
-<radialGradient id="rp2" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#ffd9e6"/>
-<stop offset="70%" stop-color="#ff8fc0"/>
-<stop offset="100%" stop-color="#e75480"/>
-</radialGradient>
-<radialGradient id="rp3" cx="50%" cy="50%" r="50%">
-<stop offset="0%" stop-color="#fff0f5"/>
-<stop offset="100%" stop-color="#ffb6d5"/>
-</radialGradient>
-</defs>
-<ellipse cx="50" cy="50" rx="42" ry="38" fill="url(#rp1)" opacity="0.9"/>
-<path d="M50,20 Q35,30 30,50 Q28,65 40,78 Q50,85 60,78 Q72,65 70,50 Q65,30 50,20 Z" fill="url(#rp2)"/>
-<path d="M50,32 Q42,38 40,50 Q39,60 46,68 Q50,72 54,68 Q61,60 60,50 Q58,38 50,32 Z" fill="url(#rp3)"/>
-<path d="M50,42 Q46,46 45,52 Q45,58 50,60 Q55,58 55,52 Q54,46 50,42 Z" fill="#ffffff" opacity="0.7"/>
-</svg>'''
+ROSE_SVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="rp1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb6d5"/><stop offset="60%" stop-color="#ff69b4"/><stop offset="100%" stop-color="#c71585"/></radialGradient><radialGradient id="rp2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffd9e6"/><stop offset="70%" stop-color="#ff8fc0"/><stop offset="100%" stop-color="#e75480"/></radialGradient><radialGradient id="rp3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff0f5"/><stop offset="100%" stop-color="#ffb6d5"/></radialGradient></defs><ellipse cx="50" cy="50" rx="42" ry="38" fill="url(#rp1)" opacity="0.9"/><path d="M50,20 Q35,30 30,50 Q28,65 40,78 Q50,85 60,78 Q72,65 70,50 Q65,30 50,20 Z" fill="url(#rp2)"/><path d="M50,32 Q42,38 40,50 Q39,60 46,68 Q50,72 54,68 Q61,60 60,50 Q58,38 50,32 Z" fill="url(#rp3)"/><path d="M50,42 Q46,46 45,52 Q45,58 50,60 Q55,58 55,52 Q54,46 50,42 Z" fill="#ffffff" opacity="0.7"/></svg>'
 
 LOGO_B64 = base64.b64encode(LOGO_SVG.encode("utf-8")).decode("utf-8")
 LOGO_DATA_URI = f"data:image/svg+xml;base64,{LOGO_B64}"
@@ -205,7 +161,7 @@ ROSE_B64 = base64.b64encode(ROSE_SVG.encode("utf-8")).decode("utf-8")
 ROSE_DATA_URI = f"data:image/svg+xml;base64,{ROSE_B64}"
 
 # ============================================================
-# CSS مشترك
+# CSS
 # ============================================================
 st.markdown("""
 <style>
@@ -233,26 +189,10 @@ st.markdown("""
 .rose-3 { bottom: 30px; left: -15px; width: 110px; height: 110px; animation: float-3 8s ease-in-out infinite; opacity: 0.5; }
 .rose-4 { bottom: -20px; right: -10px; width: 140px; height: 140px; animation: float-4 6.5s ease-in-out infinite; opacity: 0.5; }
 
-@keyframes float-1 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(8px, 12px) rotate(4deg); }
-    50% { transform: translate(-5px, 18px) rotate(-3deg); }
-    75% { transform: translate(6px, 8px) rotate(2deg); }
-}
-@keyframes float-2 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33% { transform: translate(-10px, 15px) rotate(-5deg); }
-    66% { transform: translate(5px, 8px) rotate(3deg); }
-}
-@keyframes float-3 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    33% { transform: translate(12px, -10px) rotate(5deg); }
-    66% { transform: translate(-6px, -18px) rotate(-3deg); }
-}
-@keyframes float-4 {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(-12px, -14px) rotate(4deg); }
-}
+@keyframes float-1 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 25% { transform: translate(8px,12px) rotate(4deg); } 50% { transform: translate(-5px,18px) rotate(-3deg); } 75% { transform: translate(6px,8px) rotate(2deg); } }
+@keyframes float-2 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 33% { transform: translate(-10px,15px) rotate(-5deg); } 66% { transform: translate(5px,8px) rotate(3deg); } }
+@keyframes float-3 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 33% { transform: translate(12px,-10px) rotate(5deg); } 66% { transform: translate(-6px,-18px) rotate(-3deg); } }
+@keyframes float-4 { 0%, 100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-12px,-14px) rotate(4deg); } }
 
 .settings-btn {
     position: fixed !important;
@@ -289,13 +229,9 @@ st.markdown("""
     height: 120px !important;
     display: block !important;
     animation: float-logo 3.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.75))
-            drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.75)) drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
 }
-@keyframes float-logo {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-}
+@keyframes float-logo { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
 
 .astro-title {
     text-align: center;
@@ -371,7 +307,7 @@ st.markdown("""
     50% { box-shadow: 0 0 30px rgba(255, 105, 180, 0.9), 0 0 55px rgba(255, 20, 147, 0.7), inset 0 0 25px rgba(255, 255, 255, 0.4); }
 }
 
-/* ===== واجهة الشات ===== */
+/* ===== ترويسة الشات ===== */
 .chat-header {
     display: flex;
     align-items: center;
@@ -414,11 +350,8 @@ st.markdown("""
     background: rgba(255,255,255,0.5);
     transition: all 0.2s ease;
 }
-.back-link:hover {
-    background: rgba(168, 85, 247, 0.2);
-}
+.back-link:hover { background: rgba(168, 85, 247, 0.2); }
 
-/* ===== رسائل الشات ===== */
 [data-testid="stChatMessage"] {
     background: rgba(255, 255, 255, 0.4) !important;
     backdrop-filter: blur(10px) !important;
@@ -429,7 +362,6 @@ st.markdown("""
     box-shadow: 0 2px 10px rgba(255, 105, 180, 0.15) !important;
 }
 
-/* ===== حقل الإدخال ===== */
 [data-testid="stChatInput"] textarea {
     background: rgba(255, 255, 255, 0.6) !important;
     border: 1.5px solid rgba(255, 215, 0, 0.6) !important;
@@ -462,20 +394,21 @@ st.markdown("""
 # ============================================================
 # الورود الأربع
 # ============================================================
-st.markdown(f"""
-<div class="rose rose-1"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
-<div class="rose rose-2"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
-<div class="rose rose-3"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
-<div class="rose rose-4"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
-""", unsafe_allow_html=True)
+st.markdown(
+    '<div class="rose rose-1"><img src="' + ROSE_DATA_URI + '" /></div>'
+    '<div class="rose rose-2"><img src="' + ROSE_DATA_URI + '" /></div>'
+    '<div class="rose rose-3"><img src="' + ROSE_DATA_URI + '" /></div>'
+    '<div class="rose rose-4"><img src="' + ROSE_DATA_URI + '" /></div>',
+    unsafe_allow_html=True,
+)
 
 # ============================================================
 # زر الإعدادات
 # ============================================================
 st.markdown('<div class="settings-btn">', unsafe_allow_html=True)
 with st.popover("⚙"):
-    st.markdown(f"### ⚙️ {L['settings']}")
-    st.markdown(f"**🌐 {L['language']}**")
+    st.markdown("### ⚙️ " + L["settings"])
+    st.markdown("**🌐 " + L["language"] + "**")
     c1, c2 = st.columns(2)
     with c1:
         if st.button("العربية", use_container_width=True, key="ar_btn"):
@@ -489,10 +422,10 @@ with st.popover("⚙"):
             st.rerun()
 
     st.divider()
-    st.button(f"📜 {L['terms']}", use_container_width=True)
-    st.button(f"🤖 {L['ai_options']}", use_container_width=True)
+    st.button("📜 " + L["terms"], use_container_width=True)
+    st.button("🤖 " + L["ai_options"], use_container_width=True)
     st.divider()
-    st.button(f"🔗 {L['google']}", use_container_width=True)
+    st.button("🔗 " + L["google"], use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 
@@ -501,20 +434,21 @@ st.markdown('</div>', unsafe_allow_html=True)
 # ============================================================
 def show_home():
     st.markdown(
-        f'<div class="logo-wrap"><img src="{LOGO_DATA_URI}" alt="ASTRO" /></div>',
+        '<div class="logo-wrap"><img src="' + LOGO_DATA_URI + '" alt="ASTRO" /></div>',
         unsafe_allow_html=True,
     )
     st.markdown('<div class="astro-title">ASTRO</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="astro-sub">{L["welcome"]}</div>', unsafe_allow_html=True)
+    st.markdown('<div class="astro-sub">' + L["welcome"] + '</div>', unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div class="bubbles-grid">
-        <a href="?mode=teacher" class="bubble" target="_self">{L["teacher"]}</a>
-        <a href="?mode=doctor" class="bubble" target="_self">{L["doctor"]}</a>
-        <a href="?mode=friend" class="bubble" target="_self">{L["friend"]}</a>
-        <a href="?mode=general" class="bubble" target="_self">{L["general"]}</a>
-    </div>
-    """, unsafe_allow_html=True)
+    grid_html = (
+        '<div class="bubbles-grid">'
+        '<a href="?mode=teacher" class="bubble" target="_self">' + L["teacher"] + '</a>'
+        '<a href="?mode=doctor" class="bubble" target="_self">' + L["doctor"] + '</a>'
+        '<a href="?mode=friend" class="bubble" target="_self">' + L["friend"] + '</a>'
+        '<a href="?mode=general" class="bubble" target="_self">' + L["general"] + '</a>'
+        '</div>'
+    )
+    st.markdown(grid_html, unsafe_allow_html=True)
 
 
 # ============================================================
@@ -529,9 +463,20 @@ def show_chat():
 
     persona = PERSONAS[mode]
     p_lang = persona[st.session_state.lang]
-    chat_key = f"chat_{mode}"
+    chat_key = "chat_" + mode
 
-    # ===== ترويسة الشات =====
-    st.markdown(f"""
-    <div class="chat-header">
-        <div class="chat-
+    header_html = (
+        '<div class="chat-header">'
+        '<div class="chat-persona">'
+        '<div class="chat-persona-icon" style="background: ' + persona["gradient"] + ';">'
+        + persona["icon"] +
+        '</div>'
+        '<span>' + p_lang["name"] + '</span>'
+        '</div>'
+        '<a href="?" class="back-link" target="_self">← ' + L["back"] + '</a>'
+        '</div>'
+    )
+    st.markdown(header_html, unsafe_allow_html=True)
+
+    if len(st.session_state[chat_key]) == 0:
+        st.session_state[chat_key].ap
