@@ -15,7 +15,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# قراءة الوضع من الرابط
 if "mode" in st.query_params:
     st.session_state.mode = st.query_params["mode"]
 
@@ -24,7 +23,6 @@ if "lang" not in st.session_state:
 if "mode" not in st.session_state:
     st.session_state.mode = None
 
-# الترجمات
 T = {
     "ar": {
         "welcome": "اختر من تريد أن يكون أسترو معك اليوم",
@@ -58,7 +56,6 @@ L = T[st.session_state.lang]
 # ============================================================
 st.markdown("""
 <style>
-/* ===== الخلفية ===== */
 .stApp {
     background: linear-gradient(135deg, #ffe0ec 0%, #ffc2d8 50%, #ffb3cc 100%) !important;
 }
@@ -70,7 +67,6 @@ st.markdown("""
     max-width: 500px !important;
 }
 
-/* ===== ورقة الشجر ===== */
 .leaf-bg {
     position: fixed;
     top: 50%; left: 50%;
@@ -82,7 +78,6 @@ st.markdown("""
     pointer-events: none;
 }
 
-/* ===== زر الإعدادات العائم ===== */
 .settings-btn {
     position: fixed !important;
     top: 70px !important;
@@ -103,7 +98,7 @@ st.markdown("""
     margin: 0 !important;
 }
 
-/* ===== حاوية الشعار ===== */
+/* ===== الشعار ===== */
 .logo-wrap {
     display: flex;
     justify-content: center;
@@ -112,19 +107,18 @@ st.markdown("""
     position: relative;
     z-index: 2;
 }
-.logo-wrap svg {
+.logo-wrap img {
     width: 110px;
     height: 110px;
     animation: float 3.5s ease-in-out infinite;
-    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6))
-            drop-shadow(0 0 30px rgba(168, 85, 247, 0.5));
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7))
+            drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
 }
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
 }
 
-/* ===== اسم ASTRO الذهبي ===== */
 .astro-title {
     text-align: center;
     font-family: 'Georgia', 'Times New Roman', serif;
@@ -161,7 +155,6 @@ st.markdown("""
     padding: 0 15px;
 }
 
-/* ===== شبكة الفقاعات (2×2) ===== */
 .bubbles-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -172,7 +165,6 @@ st.markdown("""
     position: relative; z-index: 2;
 }
 
-/* ===== الفقاعة ===== */
 .bubble {
     display: flex;
     justify-content: center;
@@ -221,9 +213,8 @@ st.markdown("""
     }
 }
 
-/* ===== تصغير على الشاشات الصغيرة ===== */
 @media (max-width: 400px) {
-    .logo-wrap svg { width: 95px; height: 95px; }
+    .logo-wrap img { width: 95px; height: 95px; }
     .astro-title { font-size: 2rem; letter-spacing: 4px; }
     .bubbles-grid { gap: 14px; padding: 0 10px; max-width: 340px; }
     .bubble { font-size: 0.75rem; }
@@ -251,7 +242,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# زر الإعدادات العائم
+# زر الإعدادات
 # ============================================================
 st.markdown('<div class="settings-btn">', unsafe_allow_html=True)
 with st.popover("⚙"):
@@ -279,20 +270,17 @@ with st.popover("⚙"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شعار ASTRO (نجمة داخل حلقة)
+# شعار ASTRO - نسخة مبسطة بدون filters
 # ============================================================
 st.markdown("""
 <div class="logo-wrap">
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- تدرج الحلقة: وردي إلى بنفسجي -->
     <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#ff69b4"/>
       <stop offset="50%" stop-color="#c026d3"/>
       <stop offset="100%" stop-color="#a855f7"/>
     </linearGradient>
-
-    <!-- تدرج النجمة الذهبية -->
     <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fffbe6"/>
       <stop offset="25%" stop-color="#fff4c2"/>
@@ -300,42 +288,20 @@ st.markdown("""
       <stop offset="85%" stop-color="#d4a017"/>
       <stop offset="100%" stop-color="#b8860b"/>
     </radialGradient>
-
-    <!-- توهج الحلقة -->
-    <filter id="glowRing" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-
-    <!-- توهج النجمة -->
-    <filter id="glowStar" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.5" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
 
-  <!-- الحلقة الخارجية -->
   <circle cx="100" cy="100" r="78"
           fill="none"
           stroke="url(#ringGrad)"
           stroke-width="9"
-          filter="url(#glowRing)"
           opacity="0.95"/>
 
-  <!-- لمعة داخلية للحلقة (تأثير 3D) -->
   <circle cx="100" cy="100" r="78"
           fill="none"
-          stroke="rgba(255,255,255,0.5)"
+          stroke="rgba(255,255,255,0.55)"
           stroke-width="2.5"
-          opacity="0.6"/>
+          opacity="0.7"/>
 
-  <!-- النجمة الرباعية الذهبية -->
   <path d="M100,45
            Q108,88 155,100
            Q108,112 100,155
@@ -344,23 +310,15 @@ st.markdown("""
         fill="url(#starGrad)"
         stroke="#d4a017"
         stroke-width="1.2"
-        stroke-linejoin="round"
-        filter="url(#glowStar)"/>
+        stroke-linejoin="round"/>
 
-  <!-- نقطة مركزية لامعة -->
-  <circle cx="100" cy="100" r="4"
-          fill="#ffffff"
-          opacity="0.95"/>
+  <circle cx="100" cy="100" r="4" fill="#ffffff" opacity="0.95"/>
 
-  <!-- بريق صغير أعلى يمين -->
   <path d="M148,60 Q150,66 156,68 Q150,70 148,76 Q146,70 140,68 Q146,66 148,60 Z"
-        fill="#fffbe6"
-        opacity="0.9"/>
+        fill="#fffbe6" opacity="0.9"/>
 
-  <!-- بريق صغير أسفل يسار -->
   <path d="M52,132 Q54,138 60,140 Q54,142 52,148 Q50,142 44,140 Q50,138 52,132 Z"
-        fill="#fffbe6"
-        opacity="0.85"/>
+        fill="#fffbe6" opacity="0.85"/>
 </svg>
 </div>
 """, unsafe_allow_html=True)
@@ -372,7 +330,7 @@ st.markdown('<div class="astro-title">ASTRO</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="astro-sub">{L["welcome"]}</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شبكة الفقاعات
+# الفقاعات
 # ============================================================
 st.markdown(f"""
 <div class="bubbles-grid">
@@ -384,7 +342,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# عرض الوضع المختار
+# عرض الوضع
 # ============================================================
 if st.session_state.mode:
     st.markdown("<br>", unsafe_allow_html=True)
