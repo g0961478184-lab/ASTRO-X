@@ -5,7 +5,7 @@ import streamlit as st
 # ============================================================
 st.set_page_config(
     page_title="ASTRO",
-    page_icon="🌸",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -103,14 +103,35 @@ st.markdown("""
     margin: 0 !important;
 }
 
+/* ===== حاوية الشعار ===== */
+.logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0 5px 0;
+    position: relative;
+    z-index: 2;
+}
+.logo-wrap svg {
+    width: 110px;
+    height: 110px;
+    animation: float 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.6))
+            drop-shadow(0 0 30px rgba(168, 85, 247, 0.5));
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
 /* ===== اسم ASTRO الذهبي ===== */
 .astro-title {
     text-align: center;
     font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 2.6rem;
+    font-size: 2.4rem;
     font-weight: 900;
     letter-spacing: 6px;
-    margin: 15px 0 0 0;
+    margin: 0;
     background: linear-gradient(180deg, #fff4c2 0%, #ffd966 25%, #d4a017 55%, #b8860b 75%, #fff4c2 100%);
     -webkit-background-clip: text;
     background-clip: text;
@@ -140,7 +161,7 @@ st.markdown("""
     padding: 0 15px;
 }
 
-/* ===== شبكة الفقاعات (2×2) - ثابتة أفقياً ===== */
+/* ===== شبكة الفقاعات (2×2) ===== */
 .bubbles-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -202,7 +223,8 @@ st.markdown("""
 
 /* ===== تصغير على الشاشات الصغيرة ===== */
 @media (max-width: 400px) {
-    .astro-title { font-size: 2.2rem; letter-spacing: 4px; }
+    .logo-wrap svg { width: 95px; height: 95px; }
+    .astro-title { font-size: 2rem; letter-spacing: 4px; }
     .bubbles-grid { gap: 14px; padding: 0 10px; max-width: 340px; }
     .bubble { font-size: 0.75rem; }
 }
@@ -257,13 +279,100 @@ with st.popover("⚙"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
+# شعار ASTRO (نجمة داخل حلقة)
+# ============================================================
+st.markdown("""
+<div class="logo-wrap">
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- تدرج الحلقة: وردي إلى بنفسجي -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff69b4"/>
+      <stop offset="50%" stop-color="#c026d3"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <!-- تدرج النجمة الذهبية -->
+    <radialGradient id="starGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fffbe6"/>
+      <stop offset="25%" stop-color="#fff4c2"/>
+      <stop offset="55%" stop-color="#ffd966"/>
+      <stop offset="85%" stop-color="#d4a017"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </radialGradient>
+
+    <!-- توهج الحلقة -->
+    <filter id="glowRing" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- توهج النجمة -->
+    <filter id="glowStar" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- الحلقة الخارجية -->
+  <circle cx="100" cy="100" r="78"
+          fill="none"
+          stroke="url(#ringGrad)"
+          stroke-width="9"
+          filter="url(#glowRing)"
+          opacity="0.95"/>
+
+  <!-- لمعة داخلية للحلقة (تأثير 3D) -->
+  <circle cx="100" cy="100" r="78"
+          fill="none"
+          stroke="rgba(255,255,255,0.5)"
+          stroke-width="2.5"
+          opacity="0.6"/>
+
+  <!-- النجمة الرباعية الذهبية -->
+  <path d="M100,45
+           Q108,88 155,100
+           Q108,112 100,155
+           Q92,112 45,100
+           Q92,88 100,45 Z"
+        fill="url(#starGrad)"
+        stroke="#d4a017"
+        stroke-width="1.2"
+        stroke-linejoin="round"
+        filter="url(#glowStar)"/>
+
+  <!-- نقطة مركزية لامعة -->
+  <circle cx="100" cy="100" r="4"
+          fill="#ffffff"
+          opacity="0.95"/>
+
+  <!-- بريق صغير أعلى يمين -->
+  <path d="M148,60 Q150,66 156,68 Q150,70 148,76 Q146,70 140,68 Q146,66 148,60 Z"
+        fill="#fffbe6"
+        opacity="0.9"/>
+
+  <!-- بريق صغير أسفل يسار -->
+  <path d="M52,132 Q54,138 60,140 Q54,142 52,148 Q50,142 44,140 Q50,138 52,132 Z"
+        fill="#fffbe6"
+        opacity="0.85"/>
+</svg>
+</div>
+""", unsafe_allow_html=True)
+
+# ============================================================
 # العنوان
 # ============================================================
 st.markdown('<div class="astro-title">ASTRO</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="astro-sub">{L["welcome"]}</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شبكة الفقاعات - HTML Grid
+# شبكة الفقاعات
 # ============================================================
 st.markdown(f"""
 <div class="bubbles-grid">
