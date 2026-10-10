@@ -78,8 +78,38 @@ LOGO_SVG = '''<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
 <path d="M52,132 Q54,138 60,140 Q54,142 52,148 Q50,142 44,140 Q50,138 52,132 Z" fill="#fffbe6" opacity="0.85"/>
 </svg>'''
 
+# ============================================================
+# وردة (Base64 SVG)
+# ============================================================
+ROSE_SVG = '''<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient id="rp1" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#ffb6d5"/>
+<stop offset="60%" stop-color="#ff69b4"/>
+<stop offset="100%" stop-color="#c71585"/>
+</radialGradient>
+<radialGradient id="rp2" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#ffd9e6"/>
+<stop offset="70%" stop-color="#ff8fc0"/>
+<stop offset="100%" stop-color="#e75480"/>
+</radialGradient>
+<radialGradient id="rp3" cx="50%" cy="50%" r="50%">
+<stop offset="0%" stop-color="#fff0f5"/>
+<stop offset="100%" stop-color="#ffb6d5"/>
+</radialGradient>
+</defs>
+<ellipse cx="50" cy="50" rx="42" ry="38" fill="url(#rp1)" opacity="0.9"/>
+<path d="M50,20 Q35,30 30,50 Q28,65 40,78 Q50,85 60,78 Q72,65 70,50 Q65,30 50,20 Z" fill="url(#rp2)"/>
+<path d="M50,32 Q42,38 40,50 Q39,60 46,68 Q50,72 54,68 Q61,60 60,50 Q58,38 50,32 Z" fill="url(#rp3)"/>
+<path d="M50,42 Q46,46 45,52 Q45,58 50,60 Q55,58 55,52 Q54,46 50,42 Z" fill="#ffffff" opacity="0.7"/>
+<path d="M50,48 Q48,50 48,52 Q48,55 50,55 Q52,55 52,52 Q52,50 50,48 Z" fill="#ffe0ec"/>
+</svg>'''
+
 LOGO_B64 = base64.b64encode(LOGO_SVG.encode("utf-8")).decode("utf-8")
 LOGO_DATA_URI = f"data:image/svg+xml;base64,{LOGO_B64}"
+
+ROSE_B64 = base64.b64encode(ROSE_SVG.encode("utf-8")).decode("utf-8")
+ROSE_DATA_URI = f"data:image/svg+xml;base64,{ROSE_B64}"
 
 # ============================================================
 # CSS
@@ -97,17 +127,68 @@ st.markdown("""
     max-width: 500px !important;
 }
 
-.leaf-bg {
+/* ===== ورود الخلفية ===== */
+.rose {
     position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80vw; max-width: 400px;
     z-index: 0;
-    opacity: 0.5;
-    filter: blur(20px);
+    opacity: 0.55;
     pointer-events: none;
+    filter: drop-shadow(0 6px 15px rgba(199, 21, 133, 0.35));
+}
+.rose img {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
+/* المواقع الأربعة */
+.rose-1 {
+    top: -10px; left: -10px;
+    width: 130px; height: 130px;
+    animation: float-1 6s ease-in-out infinite;
+}
+.rose-2 {
+    top: 50px; right: -20px;
+    width: 100px; height: 100px;
+    animation: float-2 7s ease-in-out infinite;
+    opacity: 0.45;
+}
+.rose-3 {
+    bottom: 30px; left: -15px;
+    width: 110px; height: 110px;
+    animation: float-3 8s ease-in-out infinite;
+    opacity: 0.5;
+}
+.rose-4 {
+    bottom: -20px; right: -10px;
+    width: 140px; height: 140px;
+    animation: float-4 6.5s ease-in-out infinite;
+    opacity: 0.5;
+}
+
+/* تأثيرات الطفو المتنوعة */
+@keyframes float-1 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(8px, 12px) rotate(4deg); }
+    50% { transform: translate(-5px, 18px) rotate(-3deg); }
+    75% { transform: translate(6px, 8px) rotate(2deg); }
+}
+@keyframes float-2 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-10px, 15px) rotate(-5deg); }
+    66% { transform: translate(5px, 8px) rotate(3deg); }
+}
+@keyframes float-3 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(12px, -10px) rotate(5deg); }
+    66% { transform: translate(-6px, -18px) rotate(-3deg); }
+}
+@keyframes float-4 {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(-12px, -14px) rotate(4deg); }
+}
+
+/* ===== زر الإعدادات ===== */
 .settings-btn {
     position: fixed !important;
     top: 70px !important;
@@ -143,11 +224,11 @@ st.markdown("""
     width: 120px !important;
     height: 120px !important;
     display: block !important;
-    animation: float 3.5s ease-in-out infinite;
+    animation: float-logo 3.5s ease-in-out infinite;
     filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.75))
             drop-shadow(0 0 35px rgba(168, 85, 247, 0.6));
 }
-@keyframes float {
+@keyframes float-logo {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
 }
@@ -247,6 +328,10 @@ st.markdown("""
 }
 
 @media (max-width: 400px) {
+    .rose-1 { width: 100px; height: 100px; }
+    .rose-2 { width: 80px; height: 80px; }
+    .rose-3 { width: 90px; height: 90px; }
+    .rose-4 { width: 110px; height: 110px; }
     .logo-wrap { width: 100px; height: 100px; }
     .logo-wrap img { width: 100px !important; height: 100px !important; }
     .astro-title { font-size: 2rem; letter-spacing: 4px; }
@@ -257,22 +342,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# ورقة الشجر
+# الورود الأربع في الخلفية
 # ============================================================
-st.markdown("""
-<div class="leaf-bg">
-<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-  <defs>
-    <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ff69b4" stop-opacity="1"/>
-      <stop offset="100%" stop-color="#ff1493" stop-opacity="0.5"/>
-    </radialGradient>
-  </defs>
-  <path fill="url(#g1)" d="M100,10 C50,10 20,50 20,100 C20,150 50,190 100,190 C150,190 180,150 180,100 C180,50 150,10 100,10 Z"/>
-  <path fill="#ffc2d8" d="M100,40 C75,40 60,70 60,100 C60,130 75,160 100,160 C125,160 140,130 140,100 C140,70 125,40 100,40 Z"/>
-  <path fill="#ff69b4" d="M100,70 C90,70 85,85 85,100 C85,115 90,130 100,130 C110,130 115,115 115,100 C115,85 110,70 100,70 Z"/>
-</svg>
-</div>
+st.markdown(f"""
+<div class="rose rose-1"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
+<div class="rose rose-2"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
+<div class="rose rose-3"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
+<div class="rose rose-4"><img src="{ROSE_DATA_URI}" alt="rose" /></div>
 """, unsafe_allow_html=True)
 
 # ============================================================
@@ -304,7 +380,7 @@ with st.popover("⚙"):
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
-# شعار ASTRO (Base64 Image)
+# شعار ASTRO
 # ============================================================
 st.markdown(
     f'<div class="logo-wrap"><img src="{LOGO_DATA_URI}" alt="ASTRO" /></div>',
