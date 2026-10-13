@@ -1,3 +1,9 @@
+KEYS = [
+    "chat_teacher",
+    "chat_doctor",
+    "chat_friend",
+    "chat_general",
+]
 MODES = ["teacher", "doctor", "friend", "general"]
 
 T = {
